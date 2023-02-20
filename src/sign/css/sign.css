@@ -1,0 +1,9 @@
+.formText {
+    display: block;
+    text-align: center;
+}
+.inputBox {
+    display: block;
+    margin: 0 auto;
+    text-align: left;
+}

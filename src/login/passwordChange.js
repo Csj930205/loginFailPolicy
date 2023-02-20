@@ -42,7 +42,6 @@ function PasswordChange() {
             })
             .catch(error => {console.log(error.message)})
     }
-
     return (
         <div>
             <Form className="formText">

@@ -25,14 +25,8 @@ public class MemberController {
      */
     @PostMapping("signup")
     public ResponseEntity<Map<String, Object>> signupMember(@RequestBody MemberDto memberDto) {
-        Map<String, Object> result = new HashMap<>();
-        if (memberService.insertMember(memberDto) > 0) {
-            result.put("result", "success");
-            result.put("code", HttpStatus.OK.value());
-        } else {
-            result.put("result", "fail");
-            result.put("code", HttpStatus.BAD_REQUEST.value());
-        }
+        Map<String, Object> result = memberService.insertMember(memberDto);
+
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 

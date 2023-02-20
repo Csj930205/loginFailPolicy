@@ -38,7 +38,7 @@ public class SmsCodeService {
 
         if (detailMember != null) {
             URI uri = UriComponentsBuilder
-                    .fromUriString("http://192.168.4.13:8888")
+                    .fromUriString("http://192.168.4.8:8888")
                     .path("/api/smsCode")
                     .encode()
                     .build()
@@ -100,6 +100,4 @@ public class SmsCodeService {
         }
         return result;
     }
-
-
 }

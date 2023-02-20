@@ -46,17 +46,24 @@ public class MemberService implements UserDetailsService {
      * @return
      */
     @Transactional
-    public int insertMember(MemberDto memberDto) {
+    public Map<String, Object> insertMember(MemberDto memberDto) {
         Member findMember = memberRepository.findById(memberDto.getId());
+        Map<String, Object> result = new HashMap<>();
 
         if (findMember == null) {
             BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
             memberDto.setPw(bCryptPasswordEncoder.encode(memberDto.getPw()));
             memberRepository.save(memberDto.toEntity());
-            return 1;
+            result.put("result", "success");
+            result.put("code", HttpStatus.OK.value());
+            result.put("message", "회원가입이 성공하였습니다.");
+
         } else {
-            return 0;
+            result.put("result", "fail");
+            result.put("code", HttpStatus.BAD_REQUEST.value());
+            result.put("message", "회원가입이 실패하였습니다. 다시 시도해주세요.");
         }
+        return result;
     }
 
     /**

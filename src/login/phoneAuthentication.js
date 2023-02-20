@@ -32,7 +32,6 @@ function PhoneAuthentication () {
         }
         axios.post(url, {name: name, phone: phone}, config)
             .then(function (response) {
-
                 if (response.data.code === 200) {
                     alert(response.data.message);
                     pageMove();

@@ -6,11 +6,16 @@ import Button from "react-bootstrap/Button";
 function LoginFail() {
     const location = useLocation();
     const navigate = useNavigate();
+    const failCount = location.state.value;
+
     const loginPage = () => {
+        if (failCount === 3) {
+            const loginThree = true;
+            navigate("/login")
+        }
         navigate("/login")
     }
 
-    const failCount = location.state.value;
     return (
         <div className="loginFailText">
             <h2>로그인 실패</h2>

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 @RestController
@@ -26,7 +26,7 @@ public class AuthController {
      * @return
      */
     @PostMapping("/login")
-    public ResponseEntity<Map<String, Object>> login (@RequestBody MemberDto memberDto) {
+    public ResponseEntity<Map<String, Object>> login (@RequestBody MemberDto memberDto, HttpServletRequest request) {
         Map<String, Object> result = loginCommon.LoginIdPwCompare(memberDto);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }

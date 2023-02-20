@@ -68,9 +68,12 @@ public class Member {
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<SmsCode> smsCodes;
 
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<LoginLog> loginLogs;
+
     @Builder
     public Member (Long seq, String id, String pw, String name, String phone, String email, String role, String delYn,
-                   LocalDateTime signupDate, LocalDateTime modifiedDate, int failCount, boolean enabled, List<SmsCode> smsCodes) {
+                   LocalDateTime signupDate, LocalDateTime modifiedDate, int failCount, boolean enabled, List<SmsCode> smsCodes, List<LoginLog> loginLogs) {
         this.seq = seq;
         this.id = id;
         this.pw = pw;
@@ -84,5 +87,6 @@ public class Member {
         this.failCount = failCount;
         this.enabled = enabled;
         this.smsCodes = smsCodes;
+        this.loginLogs = loginLogs;
     }
 }

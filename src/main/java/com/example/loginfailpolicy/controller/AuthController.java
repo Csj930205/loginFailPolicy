@@ -27,7 +27,7 @@ public class AuthController {
      */
     @PostMapping("/login")
     public ResponseEntity<Map<String, Object>> login (@RequestBody MemberDto memberDto, HttpServletRequest request) {
-        Map<String, Object> result = loginCommon.LoginIdPwCompare(memberDto);
+        Map<String, Object> result = loginCommon.LoginIdPwCompare(memberDto, request);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

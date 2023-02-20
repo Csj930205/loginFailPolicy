@@ -1,7 +1,9 @@
 package com.example.loginfailpolicy.service;
 
+import com.example.loginfailpolicy.domain.dto.LoginLogDto;
 import com.example.loginfailpolicy.domain.dto.MemberDto;
 import com.example.loginfailpolicy.domain.entity.Member;
+import com.example.loginfailpolicy.repository.LoginLogRepository;
 import com.example.loginfailpolicy.repository.MemberRepository;
 import com.example.loginfailpolicy.security.domain.CustomMemberDetail;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class MemberService implements UserDetailsService {
     private final MemberRepository memberRepository;
+    private final LoginLogRepository loginLogRepository;
 
     /**
      * 회원 전체조회

@@ -16,6 +16,7 @@ import java.util.Map;
 @RequestMapping("/api/sms")
 public class PhoneAuthenticationController {
     private final SmsCodeService smsCodeService;
+
     private final MemberService memberService;
 
     /**
@@ -26,6 +27,7 @@ public class PhoneAuthenticationController {
     @PostMapping("authentication")
     public ResponseEntity<Map<String, Object>> phoneAuthentication(@RequestBody MemberDto memberDto) {
         Map<String, Object> result = smsCodeService.smsCodeSend(memberDto.getName(), memberDto.getPhone());
+
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -49,6 +51,7 @@ public class PhoneAuthenticationController {
     @PatchMapping("passwordChange")
     public ResponseEntity<Map<String, Object>> passwordChange(@RequestBody MemberDto memberDto) {
         Map<String, Object> result = memberService.passwordChange(memberDto);
+
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

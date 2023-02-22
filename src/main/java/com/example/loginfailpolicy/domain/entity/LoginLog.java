@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 @DynamicInsert
 @Getter
 public class LoginLog {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "login_log_seq")

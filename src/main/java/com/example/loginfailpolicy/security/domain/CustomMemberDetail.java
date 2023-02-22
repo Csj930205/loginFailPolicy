@@ -17,7 +17,6 @@ public class CustomMemberDetail implements UserDetails {
         this.member = member;
     }
 
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singleton(new SimpleGrantedAuthority(member.getRole()));

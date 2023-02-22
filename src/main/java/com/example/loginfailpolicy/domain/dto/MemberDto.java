@@ -11,8 +11,11 @@ import javax.validation.constraints.Pattern;
 @NoArgsConstructor
 public class MemberDto {
     private String id;
+
     private String pw;
+
     private String name;
+
     private String phone;
 
     @Pattern( regexp = "([\\w-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([\\w-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)$", message = "이메일 형식이 잘못되었습니다.")

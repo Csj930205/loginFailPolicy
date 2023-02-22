@@ -37,6 +37,7 @@ public class MemberController {
     @GetMapping("list")
     public ResponseEntity<Map<String, Object>> listMember() {
         List<Member> memberList = memberService.memberList();
+
         Map<String, Object> result = new HashMap<>();
         result.put("result", "success");
         result.put("code", HttpStatus.OK.value());
@@ -53,12 +54,11 @@ public class MemberController {
     @GetMapping("/detailList/{id}")
     public ResponseEntity<Map<String, Object>> detailList(@PathVariable("id") String id) {
         Member detailList = memberService.detailMember(id);
-        Map<String, Object> result = new HashMap<>();
 
+        Map<String, Object> result = new HashMap<>();
         result.put("result", "success");
         result.put("code", HttpStatus.OK.value());
         result.put("detailList", detailList);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
-
 }

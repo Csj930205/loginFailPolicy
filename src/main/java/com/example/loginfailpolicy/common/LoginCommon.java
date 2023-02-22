@@ -2,7 +2,6 @@ package com.example.loginfailpolicy.common;
 
 import com.example.loginfailpolicy.domain.dto.LoginLogDto;
 import com.example.loginfailpolicy.domain.dto.MemberDto;
-import com.example.loginfailpolicy.domain.entity.LoginLog;
 import com.example.loginfailpolicy.domain.entity.Member;
 import com.example.loginfailpolicy.repository.LoginLogRepository;
 import com.example.loginfailpolicy.security.domain.CustomMemberDetail;
@@ -25,8 +24,8 @@ public class LoginCommon {
     private final MemberService memberService;
 
     private final LoginLogRepository loginLogRepository;
-    private final PasswordEncoder passwordEncoder;
 
+    private final PasswordEncoder passwordEncoder;
 
     /**
      * 로그인 검사(패스워드, 계정 잠금여부)
@@ -34,20 +33,22 @@ public class LoginCommon {
      * @return
      */
     public Map<String, Object> LoginIdPwCompare(MemberDto memberDto, HttpServletRequest request) {
-        Map<String, Object> result = new HashMap<>();
-        CustomMemberDetail memberId = memberService.loadUserByUsername(memberDto.getId());
-        String ip = getClientIp(request);
         LoginLogDto loginLogDto = new LoginLogDto();
+        Map<String, Object> result = new HashMap<>();
+        String ip = getClientIp(request);
+        CustomMemberDetail memberId = memberService.loadUserByUsername(memberDto.getId());
 
         if (memberId.isAccountNonLocked() == true) {
             if ( passwordEncoder.matches(memberDto.getPw(), memberId.getPassword())) {
                 memberService.failCountClear(memberId.getUsername());
                 loginLogDto.setAccess("성공");
+
                 result.put("result", "success");
                 result.put("code", HttpStatus.OK.value());
             } else {
                 Member failCountUp = memberService.failCountUp(memberDto.getId());
                 loginLogDto.setAccess("실패");
+
                 result.put("result", "fail");
                 result.put("code", HttpStatus.NOT_FOUND.value());
                 result.put("failCount", failCountUp.getFailCount());
@@ -56,6 +57,7 @@ public class LoginCommon {
             }
         } else {
             loginLogDto.setAccess("실패");
+
             result.put("result", "fail");
             result.put("code", HttpStatus.FORBIDDEN.value());
             result.put("failCount", memberId.getFailCount());
@@ -65,6 +67,7 @@ public class LoginCommon {
         loginLogDto.setMember(memberId.getMember());
         loginLogDto.setIp(ip);
         loginLogRepository.save(loginLogDto.toEntity());
+
         return result;
     }
 

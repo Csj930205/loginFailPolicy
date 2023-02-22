@@ -1,9 +1,7 @@
 package com.example.loginfailpolicy.service;
 
-import com.example.loginfailpolicy.domain.dto.LoginLogDto;
 import com.example.loginfailpolicy.domain.dto.MemberDto;
 import com.example.loginfailpolicy.domain.entity.Member;
-import com.example.loginfailpolicy.repository.LoginLogRepository;
 import com.example.loginfailpolicy.repository.MemberRepository;
 import com.example.loginfailpolicy.security.domain.CustomMemberDetail;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +20,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class MemberService implements UserDetailsService {
     private final MemberRepository memberRepository;
-    private final LoginLogRepository loginLogRepository;
 
     /**
      * 회원 전체조회
@@ -30,6 +27,7 @@ public class MemberService implements UserDetailsService {
      */
     public List<Member> memberList() {
         List<Member> memberList = memberRepository.findAll();
+
         return memberList;
     }
 
@@ -40,6 +38,7 @@ public class MemberService implements UserDetailsService {
      */
     public Member detailMember(String id) {
         Member detialMember = memberRepository.findById(id);
+
         return detialMember;
     }
 
@@ -57,10 +56,10 @@ public class MemberService implements UserDetailsService {
             BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
             memberDto.setPw(bCryptPasswordEncoder.encode(memberDto.getPw()));
             memberRepository.save(memberDto.toEntity());
+
             result.put("result", "success");
             result.put("code", HttpStatus.OK.value());
             result.put("message", "회원가입이 성공하였습니다.");
-
         } else {
             result.put("result", "fail");
             result.put("code", HttpStatus.BAD_REQUEST.value());
@@ -125,6 +124,7 @@ public class MemberService implements UserDetailsService {
         if (detailMember != null) {
             BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
             memberRepository.passwordChange(memberDto.getId(), bCryptPasswordEncoder.encode(memberDto.getPw()));
+
             result.put("result", "success");
             result.put("code", HttpStatus.OK.value());
             result.put("message", "비밀번호 변경이 완료되었습니다.");

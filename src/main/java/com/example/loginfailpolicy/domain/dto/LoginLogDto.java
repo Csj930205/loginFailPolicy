@@ -12,7 +12,9 @@ import lombok.Setter;
 @NoArgsConstructor
 public class LoginLogDto {
     private String access;
+
     private String ip;
+
     private Member member;
 
     @Builder

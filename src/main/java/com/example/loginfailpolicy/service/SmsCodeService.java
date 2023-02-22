@@ -38,7 +38,7 @@ public class SmsCodeService {
 
         if (detailMember != null) {
             URI uri = UriComponentsBuilder
-                    .fromUriString("http://192.168.4.8:8888")
+                    .fromUriString("http://192.168.4.8:8080")
                     .path("/api/smsCode")
                     .encode()
                     .build()
@@ -56,12 +56,10 @@ public class SmsCodeService {
                 result.put("result", "success");
                 result.put("code", HttpStatus.OK.value());
                 result.put("message", "인증번호가 발송되었습니다.");
-
             } else {
                 result.put("result", "fail");
                 result.put("code", HttpStatus.BAD_REQUEST.value());
                 result.put("message", "인증번호 발송에 실패하였습니다. 다시 시도해주세요.");
-                return result;
             }
         } else {
             result.put("result", "fail");
@@ -91,12 +89,12 @@ public class SmsCodeService {
             } else {
                 result.put("result", "fail");
                 result.put("code", HttpStatus.BAD_REQUEST.value());
-                result.put("message", "인증시간이 초과하였습니다.");
+                result.put("message", "인증번호 시간이 초과하였습니다.");
             }
         } else {
             result.put("result", "fail");
             result.put("code", HttpStatus.NOT_FOUND.value());
-            result.put("message", "인증번호가 유효하지 않습니다");
+            result.put("message", "인증번호가 일치하지 않습니다");
         }
         return result;
     }

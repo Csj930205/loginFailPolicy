@@ -1,11 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-
 import Button from "react-bootstrap/Button";
 
-
 function LoginLocked() {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const navigate = useNavigate();
     const authenticationPage = () => {
         navigate("/phoneAuthentication")
@@ -24,7 +21,6 @@ function LoginLocked() {
             <br/><br/>
             <Button type="button" onClick={home}>메인</Button>
         </div>
-
         )
 }
 export default LoginLocked;

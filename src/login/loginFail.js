@@ -1,7 +1,6 @@
-import React, {} from "react";
+import React from "react";
 import { useNavigate , useLocation } from "react-router-dom";
 import Button from "react-bootstrap/Button";
-
 
 function LoginFail() {
     const location = useLocation();

@@ -5,23 +5,22 @@ import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
 
-
 function PhoneAuthentication () {
-    const [name, setName] = useState('');
-    const [phone, setPhone] = useState('');
-    const url = "/api/sms/authentication"
-    const config = {"Content-Type": 'application/json'}
-    const handName = (e) => {setName(e.target.value)};
-    const handPhone = (e) => {setPhone(e.target.value)};
     const navigate = useNavigate();
     const pageMove = () =>{ navigate("/codeSend") }
 
+    const url = "/api/sms/authentication"
+    const config = {"Content-Type": 'application/json'}
+
+    const [name, setName] = useState('');
+    const [phone, setPhone] = useState('');
+    const handName = (e) => {setName(e.target.value)};
+    const handPhone = (e) => {setPhone(e.target.value)};
 
     /**
      * Axios 휴대폰 인증
      */
     const authentication = () => {
-
         if (name.trim() === '') {
             alert('이름을 입력해주세요');
             return;
@@ -41,6 +40,7 @@ function PhoneAuthentication () {
             })
             .catch(error => console.log(error));
     }
+
     return (
         <div>
         <Form className="formText">

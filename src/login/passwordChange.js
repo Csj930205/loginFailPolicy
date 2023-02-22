@@ -8,14 +8,20 @@ import Col from "react-bootstrap/Col";
 function PasswordChange() {
     const location = useLocation();
     const navigate = useNavigate();
+
+    const url = '/api/sms/passwordChange';
+    const config = {"Content-Type": 'application/json'}
+
+    const memberId = location.state.value;
+
     const [pw, setPw] = useState('');
     const [pwd, setPwd] = useState('');
     const handlePw = (e) => {setPw(e.target.value)}
     const handlePwd = (e) => {setPwd(e.target.value)}
-    const url = '/api/sms/passwordChange';
-    const config = {"Content-Type": 'application/json'}
-    const memberId = location.state.value;
 
+    /**
+     * Axios 비밀번호 변경 요청
+     */
     const passwordChange = () => {
         if (pw.trim() === '') {
             alert('비밀번호를 입력하세요.')
@@ -42,6 +48,7 @@ function PasswordChange() {
             })
             .catch(error => {console.log(error.message)})
     }
+
     return (
         <div>
             <Form className="formText">

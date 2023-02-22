@@ -5,14 +5,17 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 
-
 function CodeSend() {
-    const [randomCode, setCode] = useState('');
     const navigate = useNavigate();
     const url = "/api/sms/codeCompare";
     const config = {"Content-Type" : 'application/json'};
+
+    const [randomCode, setCode] = useState('');
     const handleCode = (e) => { setCode(e.target.value) };
 
+    /**
+     * Axios 인증 코드 비교 요청
+     */
     const codeSend = () =>{
         if (randomCode.trim() === '') {
             alert('인증번호를 입력해주세요.');

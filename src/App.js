@@ -18,24 +18,22 @@ function App() {
                 <Nav.Link  as={Link} to='/'> Home </Nav.Link>
             </Nav.Item>
             <Nav.Item>
-                <Nav.Link  as={Link} to='/login'> login </Nav.Link>
+                <Nav.Link  as={Link} to='/login'> 로그인 </Nav.Link>
             </Nav.Item>
             <Nav.Item>
-                <Nav.Link  as={Link} to='/signup'> signup </Nav.Link>
+                <Nav.Link  as={Link} to='/signup'> 회원가입 </Nav.Link>
             </Nav.Item>
         </Nav>
-
       <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/loginFail' element={<LoginFail />} />
-        <Route path='/loginLocked' element={<LoginLocked />} />
-        <Route path='/phoneAuthentication' element={<PhoneAuthentication />} />
-        <Route path='/codeSend' element={<CodeSend />} />
-        <Route path='/passwordChange' element={<PasswordChange />} />
-        <Route path='/signup' element={<Signup />} />
+            <Route path='/' element={<Home />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/loginFail' element={<LoginFail />} />
+            <Route path='/loginLocked' element={<LoginLocked />} />
+            <Route path='/phoneAuthentication' element={<PhoneAuthentication />} />
+            <Route path='/codeSend' element={<CodeSend />} />
+            <Route path='/passwordChange' element={<PasswordChange />} />
+            <Route path='/signup' element={<Signup />} />
       </Routes>
-
     </BrowserRouter>
   );
 }

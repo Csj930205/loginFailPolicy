@@ -1,5 +1,5 @@
 import './css/login.css';
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import Button  from "react-bootstrap/Button";
@@ -10,6 +10,7 @@ function Login() {
     const url = '/api/auth/login'
     const config = {"Content-Type" : 'application/json'}
     const navigate = useNavigate();
+    const loginLocked = () => { navigate("/loginLocked") }
 
     const [id, setId] = useState('');
     const [pw, setPw] = useState('');
@@ -27,7 +28,6 @@ function Login() {
     const [phoneHidden, setPhoneHidden] = useState(true);
     const [phoneButton, setPhoneButton] = useState(true);
     const [authenticationButton, setAuthenticationButton] = useState(true);
-
     const [loginButton, setLoginButton] = useState(false);
     const [authenticationHidden, setAuthenticationHidden] = useState(true);
     const [codeDisabled, setCodeDisabled] = useState(true);
@@ -63,7 +63,7 @@ function Login() {
                         }
                     } else {
                         alert(response.data.message);
-                        window.location.href = "/loginLocked"
+                        loginLocked();
                     }
                 } else {
                     alert('로그인 성공');
@@ -92,12 +92,16 @@ function Login() {
                     setAuthenticationButton(false);
                     return;
                 } else {
-                    alert('인증이 실패하였습니다. 다시 시도해주세요.')
+                    alert(response.data.message)
                     return;
                 }
             })
             .catch(error => console.log(error))
     }
+
+    /**
+     * 휴대폰 인증 코드 발송
+     */
     const randomCodeSend = () => {
         if (randomCode.trim() === '' ) {
             alert('인증번호를 입력해주세요.')
@@ -114,6 +118,8 @@ function Login() {
                     setName('');
                     setRandomCode('');
                     return;
+                } else {
+                    alert(response.data.message);
                 }
             })
             .catch(error => console.log(error));

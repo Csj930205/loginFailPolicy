@@ -154,13 +154,13 @@ public class MemberService implements UserDetailsService {
 
     /**
      * 비밀번호 정규표현식 체크
-     * @param pw
+     * @param password
      * @return
      */
-    public boolean validationPassword (String pw) {
+    public boolean validationPassword (String password) {
         String regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,20}$";
         Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(pw);
+        Matcher matcher = pattern.matcher(password);
 
         if (matcher.matches()) {
             return true;

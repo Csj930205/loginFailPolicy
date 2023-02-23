@@ -3,6 +3,7 @@ package com.example.loginfailpolicy.domain.dto;
 import com.example.loginfailpolicy.domain.entity.Member;
 import lombok.*;
 
+import javax.persistence.Column;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
 
@@ -12,6 +13,7 @@ import javax.validation.constraints.Pattern;
 public class MemberDto {
     private String id;
 
+    @Pattern( regexp = "([A-Za-z0-9]{8,20}$)", message = "비밀번호 조합식에 어긋납니다.")
     private String pw;
 
     private String name;

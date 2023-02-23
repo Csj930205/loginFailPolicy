@@ -15,6 +15,8 @@ import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 @RequiredArgsConstructor
@@ -51,15 +53,22 @@ public class MemberService implements UserDetailsService {
     public Map<String, Object> insertMember(MemberDto memberDto) {
         Member findMember = memberRepository.findById(memberDto.getId());
         Map<String, Object> result = new HashMap<>();
+        boolean validationPw = validationPassword(memberDto.getPw());
 
         if (findMember == null) {
-            BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-            memberDto.setPw(bCryptPasswordEncoder.encode(memberDto.getPw()));
-            memberRepository.save(memberDto.toEntity());
+            if (validationPw) {
+                BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+                memberDto.setPw(bCryptPasswordEncoder.encode(memberDto.getPw()));
+                memberRepository.save(memberDto.toEntity());
 
-            result.put("result", "success");
-            result.put("code", HttpStatus.OK.value());
-            result.put("message", "회원가입이 성공하였습니다.");
+                result.put("result", "success");
+                result.put("code", HttpStatus.OK.value());
+                result.put("message", "회원가입이 성공하였습니다.");
+            } else {
+             result.put("result", "fail");
+             result.put("code", HttpStatus.BAD_REQUEST.value());
+             result.put("message", "비밀번호 규칙에 어긋납니다.");
+            }
         } else {
             result.put("result", "fail");
             result.put("code", HttpStatus.BAD_REQUEST.value());
@@ -120,20 +129,43 @@ public class MemberService implements UserDetailsService {
     public Map<String, Object> passwordChange(MemberDto memberDto) {
         Map<String, Object> result = new HashMap<>();
         Member detailMember = memberRepository.findById(memberDto.getId());
+        boolean validationPw = validationPassword(memberDto.getPw());
 
         if (detailMember != null) {
-            BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-            memberRepository.passwordChange(memberDto.getId(), bCryptPasswordEncoder.encode(memberDto.getPw()));
+            if (validationPw) {
+                BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+                memberRepository.passwordChange(memberDto.getId(), bCryptPasswordEncoder.encode(memberDto.getPw()));
 
-            result.put("result", "success");
-            result.put("code", HttpStatus.OK.value());
-            result.put("message", "비밀번호 변경이 완료되었습니다.");
+                result.put("result", "success");
+                result.put("code", HttpStatus.OK.value());
+                result.put("message", "비밀번호 변경이 완료되었습니다.");
+            } else {
+                result.put("result", "fail");
+                result.put("code", HttpStatus.NOT_FOUND.value());
+                result.put("message", "비밀번호 규칙에 어긋납니다.");
+            }
         } else {
             result.put("result", "fail");
             result.put("code", HttpStatus.NOT_FOUND.value());
             result.put("message", "정보가 잘못되었습니다. 다시 시도해주세요.");
         }
         return result;
+    }
 
+    /**
+     * 비밀번호 정규표현식 체크
+     * @param pw
+     * @return
+     */
+    public boolean validationPassword (String pw) {
+        String regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,20}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(pw);
+
+        if (matcher.matches()) {
+            return true;
+        } else  {
+            return false;
+        }
     }
 }

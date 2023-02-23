@@ -27,7 +27,7 @@ function Signup() {
     const handlePhone = (e) => {setPhone(e.target.value)}
 
     const data = {id : id, pw: pw, name: name, email: email, phone: phone, role: "ROLE_USER"}
-    const pwRegEx = /^[A-Za-z0-9]{8,20}$/;
+    const pwRegEx = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/;
     const emailRegEx = /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/i;
 
     /**
@@ -50,7 +50,7 @@ function Signup() {
             alert('비밀번호 재입력을 확인해주세요.');
             return;
         }
-        if (pw != pwd) {
+        if (pw !== pwd) {
             alert('비밀번호가 다릅니다.재확인 해주세요.');
             return;
         }
@@ -89,7 +89,7 @@ function Signup() {
             <Form.Group className="mb-3">
                 <Col sm="2" className="inputBox">
                     패스워드<Form.Control type="password" name="pw" value={pw} onChange={handlePw}/>
-                    비밀번호는 영문 대소문자, 숫자를 혼합한 8~20자로 입력해주세요.
+                    최소 8자, 하나 이상의 대문자, 소문자, 숫자를 포함하여 입력해주세요.
                 </Col>
             </Form.Group>
             <Form.Group className="mb-3">

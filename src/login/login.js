@@ -20,7 +20,14 @@ function Login() {
 
     const handleId = (e) => {setId(e.target.value)};
     const handlePw = (e) => {setPw(e.target.value)};
-    const handlePhone = (e) => {setPhone(e.target.value)};
+    const handlePhone = (e) => {
+        let value = e.target.value
+        value = value.replace(/[^0-9]/g, '');
+        if (value.length === 11) {
+            value = value.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
+        }
+        setPhone(value);
+    };
     const handleName = (e) => {setName(e.target.value)};
     const handleRandomCode = (e) => {setRandomCode(e.target.value)}
 

@@ -15,7 +15,14 @@ function PhoneAuthentication () {
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
     const handName = (e) => {setName(e.target.value)};
-    const handPhone = (e) => {setPhone(e.target.value)};
+    const handPhone = (e) => {
+        let value = e.target.value
+        value = value.replace(/[^0-9]/g, '');
+        if (value.length === 11) {
+            value = value.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
+        }
+        setPhone(value);
+    };
 
     /**
      * Axios 휴대폰 인증

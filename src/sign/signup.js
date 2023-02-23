@@ -24,7 +24,16 @@ function Signup() {
     const handlePwd = (e) => {setPwd(e.target.value)}
     const handleName = (e) => {setName(e.target.value)}
     const handleEmail = (e) => {setEmail(e.target.value)}
-    const handlePhone = (e) => {setPhone(e.target.value)}
+    const handlePhone = (e) => {
+        let value = e.target.value
+        value = value.replace(/[^0-9]/g, '');
+
+        if (value.length === 11) {
+            value = value.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
+        }
+        setPhone(value);
+    }
+
 
     const data = {id : id, pw: pw, name: name, email: email, phone: phone, role: "ROLE_USER"}
     const pwRegEx = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/;

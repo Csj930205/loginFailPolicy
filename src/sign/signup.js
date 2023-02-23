@@ -34,7 +34,6 @@ function Signup() {
         setPhone(value);
     }
 
-
     const data = {id : id, pw: pw, name: name, email: email, phone: phone, role: "ROLE_USER"}
     const pwRegEx = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/;
     const emailRegEx = /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/i;

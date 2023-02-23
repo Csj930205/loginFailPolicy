@@ -1,5 +1,6 @@
 import './App.css';
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import React, { useState } from "react";
 import Nav from "react-bootstrap/Nav";
 import Home from './login/home';
 import Login from './login/login';
@@ -10,20 +11,37 @@ import CodeSend from "./login/codeSend";
 import PasswordChange from "./login/passwordChange";
 import Signup from "./sign/signup";
 
+
 function App() {
+    const [isLogin, setIsLogin] = useState(true);
+
   return (
     <BrowserRouter>
+
         <Nav variant="tabs">
             <Nav.Item>
                 <Nav.Link  as={Link} to='/'> Home </Nav.Link>
             </Nav.Item>
+    { isLogin ? (
+        <>
             <Nav.Item>
                 <Nav.Link  as={Link} to='/login'> 로그인 </Nav.Link>
             </Nav.Item>
             <Nav.Item>
                 <Nav.Link  as={Link} to='/signup'> 회원가입 </Nav.Link>
             </Nav.Item>
+        </>
+        ) : (
+        <>
+            <Nav.Item>
+                <Nav.Link  as={Link} to='/logout'> 로그아웃 </Nav.Link>
+            </Nav.Item>
+        </>
+    )
+    }
         </Nav>
+
+
       <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/login' element={<Login />} />

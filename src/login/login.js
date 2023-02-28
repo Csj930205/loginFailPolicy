@@ -6,7 +6,7 @@ import Button  from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 
-function Login() {
+function Login({}) {
     const url = '/api/auth/login'
     const config = {"Content-Type" : 'application/json'}
     const navigate = useNavigate();
@@ -74,7 +74,9 @@ function Login() {
                     }
                 } else {
                     alert('로그인 성공');
+                    localStorage.setItem('isLogin', 'true');
                     window.location.href = "/"
+
                 }
             })
             .catch(error => console.log(error))

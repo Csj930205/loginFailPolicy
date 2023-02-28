@@ -1,7 +1,6 @@
 import './App.css';
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import React, { useState } from "react";
-import Nav from "react-bootstrap/Nav";
+import React from "react";
 import Home from './login/home';
 import Login from './login/login';
 import LoginFail from "./login/loginFail";
@@ -10,39 +9,14 @@ import PhoneAuthentication from "./login/phoneAuthentication";
 import CodeSend from "./login/codeSend";
 import PasswordChange from "./login/passwordChange";
 import Signup from "./sign/signup";
+import Navbar from "./navbar";
 
 
 function App() {
-    const [isLogin, setIsLogin] = useState(true);
-
   return (
     <BrowserRouter>
-
-        <Nav variant="tabs">
-            <Nav.Item>
-                <Nav.Link  as={Link} to='/'> Home </Nav.Link>
-            </Nav.Item>
-    { isLogin ? (
-        <>
-            <Nav.Item>
-                <Nav.Link  as={Link} to='/login'> 로그인 </Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-                <Nav.Link  as={Link} to='/signup'> 회원가입 </Nav.Link>
-            </Nav.Item>
-        </>
-        ) : (
-        <>
-            <Nav.Item>
-                <Nav.Link  as={Link} to='/logout'> 로그아웃 </Nav.Link>
-            </Nav.Item>
-        </>
-    )
-    }
-        </Nav>
-
-
-      <Routes>
+        <Navbar/>
+        <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/login' element={<Login />} />
             <Route path='/loginFail' element={<LoginFail />} />
@@ -51,7 +25,7 @@ function App() {
             <Route path='/codeSend' element={<CodeSend />} />
             <Route path='/passwordChange' element={<PasswordChange />} />
             <Route path='/signup' element={<Signup />} />
-      </Routes>
+        </Routes>
     </BrowserRouter>
   );
 }

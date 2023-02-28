@@ -30,5 +30,4 @@ public class LoginLogDto {
                 .member(member)
                 .build();
     }
-
 }

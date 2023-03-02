@@ -20,7 +20,7 @@ public class PhoneAuthenticationController {
     private final MemberService memberService;
 
     /**
-     * Sms API 호출
+     * Sms API 호출(기존회원)
      * @param memberDto
      * @return
      */

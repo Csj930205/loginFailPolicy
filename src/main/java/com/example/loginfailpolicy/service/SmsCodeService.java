@@ -36,36 +36,37 @@ public class SmsCodeService {
         Member detailMember = memberRepository.findByNameAndPhone(name, phone);
         Map<String, Object> result = new HashMap<>();
 
-        if (detailMember != null) {
-            URI uri = UriComponentsBuilder
-                    .fromUriString("http://192.168.4.8:8080")
-                    .path("/api/smsCode")
-                    .encode()
-                    .build()
-                    .toUri();
-            RestTemplate restTemplate = new RestTemplate();
-            ResponseEntity<Map> success = restTemplate.postForEntity(uri, phone, Map.class);
+        URI uri = UriComponentsBuilder
+                .fromUriString("http://192.168.4.15:8080")
+                .path("/api/smsCode")
+                .encode()
+                .build()
+                .toUri();
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<Map> success = restTemplate.postForEntity(uri, phone, Map.class);
 
-            if (success != null) {
-                SmsCodeDto smsCode = new SmsCodeDto();
-                smsCode.setPhone((String) success.getBody().get("phone"));
-                smsCode.setRandomCode((String) success.getBody().get("randomNumber"));
+        if (success != null) {
+            SmsCodeDto smsCode = new SmsCodeDto();
+            smsCode.setPhone((String) success.getBody().get("phone"));
+            smsCode.setRandomCode((String) success.getBody().get("randomNumber"));
+            if (detailMember != null) {
                 smsCode.setMember(detailMember);
                 smsCodeRepository.save(smsCode.toEntity());
-
                 result.put("result", "success");
                 result.put("code", HttpStatus.OK.value());
                 result.put("message", "인증번호가 발송되었습니다.");
             } else {
-                result.put("result", "fail");
-                result.put("code", HttpStatus.BAD_REQUEST.value());
-                result.put("message", "인증번호 발송에 실패하였습니다. 다시 시도해주세요.");
+                smsCodeRepository.save(smsCode.toEntity());
+                result.put("result", "success");
+                result.put("code", HttpStatus.OK.value());
+                result.put("message", "인증번호가 발송되었습니다.");
             }
         } else {
             result.put("result", "fail");
             result.put("code", HttpStatus.NOT_FOUND.value());
-            result.put("message", "일치하는 정보가 없습니다.");
+            result.put("message", "인증번호 발송에 실패하였습니다. 다시 시도해주세요.");
         }
+
         return result;
     }
 

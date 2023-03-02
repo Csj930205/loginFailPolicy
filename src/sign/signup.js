@@ -18,6 +18,11 @@ function Signup() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
+    const [randomCode, setRandomCode] = useState('');
+    const [signupButton, setSignupButton] = useState(true);
+    const [randomCodeInput, setRandomCodeInput] = useState(true);
+    const [authenticationButton, setAuthenticationButton] = useState(false);
+    const [codeSendButton, setCodeSendButton] = useState(true)
 
     const handleId = (e) => {setId(e.target.value)}
     const handlePw = (e) => {setPw(e.target.value)}
@@ -33,15 +38,13 @@ function Signup() {
         }
         setPhone(value);
     }
+    const handleRandomCode = (e) => {setRandomCode(e.target.value)};
 
     const data = {id : id, pw: pw, name: name, email: email, phone: phone, role: "ROLE_USER"}
     const pwRegEx = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/;
     const emailRegEx = /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/i;
 
-    /**
-     * Axios 회원가입 요청
-     */
-    const signupMember = () => {
+    const codeSend = () => {
         if (id.trim() === '') {
             alert('아이디를 입력해주세요.');
             return;
@@ -62,6 +65,10 @@ function Signup() {
             alert('비밀번호가 다릅니다.재확인 해주세요.');
             return;
         }
+        if (name.trim() === '') {
+            alert('이름을 입력해주세요')
+            return;
+        }
         if (email.trim() === '') {
             alert('이메일을 입력해주세요')
             return;
@@ -73,6 +80,26 @@ function Signup() {
         if (phone.trim() === '') {
             alert('휴대폰번호를 입력해주세요.')
         }
+        const url = '/api/sms/authentication';
+        const config = {"Content-Type" : 'application/json'}
+        const data = {name : name, phone : phone};
+        axios.post(url, data, config)
+            .then(function (response) {
+                if (response.data.code === 200) {
+                    alert(response.data.message);
+                    setRandomCodeInput(false);
+                    setAuthenticationButton(true);
+                    setCodeSendButton(false);
+                } else {
+                    console.log(response.data.message);
+                }
+            }).catch(error => console.log(error))
+    }
+
+    /**
+     * Axios 회원가입 요청
+     */
+    const signupMember = () => {
         axios.post(url, data, config)
             .then(function (response) {
                 if (response.data.code === 200) {
@@ -120,7 +147,15 @@ function Signup() {
                     휴대폰번호<Form.Control type="text" name="phone" value={phone} onChange={handlePhone}/>
                 </Col>
             </Form.Group>
-            <Button verient="primary" type="button" onClick={signupMember}>가입</Button>
+            <Form.Group className="mb-3">
+                <Col sm="2" className="inputBox" hidden={randomCodeInput}>
+                    인증번호 입력<Form.Control type="text" name="randomCode" value={randomCode} onChange={handleRandomCode}/>
+                </Col>
+            </Form.Group>
+            <Button verient="primary" type="button" onClick={signupMember} disabled={signupButton}>가입</Button>
+            <br/><br/>
+            <Button verient="danger" type="button" onClick={codeSend} hidden={authenticationButton}>인증요청</Button>
+            <Button verient="danger" type="button"  hidden={codeSendButton}>인증</Button>
         </Form>
     );
 }

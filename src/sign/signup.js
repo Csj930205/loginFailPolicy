@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
@@ -8,7 +8,6 @@ import Button from "react-bootstrap/Button";
 function Signup() {
     const navigate = useNavigate();
     const home = () => { navigate('/') }
-
     const url = "/api/member/signup";
     const config = {"Content-Type": "application/json"}
 
@@ -23,6 +22,9 @@ function Signup() {
     const [randomCodeInput, setRandomCodeInput] = useState(true);
     const [authenticationButton, setAuthenticationButton] = useState(false);
     const [codeSendButton, setCodeSendButton] = useState(true)
+    const [timerHidden, setTimerHidden] = useState(true);
+    const [seconds, setSeconds] = useState(180);
+    const intervalRef = useRef(null);
 
     const handleId = (e) => {setId(e.target.value)}
     const handlePw = (e) => {setPw(e.target.value)}
@@ -44,6 +46,52 @@ function Signup() {
     const pwRegEx = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/;
     const emailRegEx = /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/i;
 
+    /**
+     * 타이머 텍스트
+     * @param seconds
+     * @returns {`${number} : ${string}${number}`}
+     */
+    const formatTimer = (seconds) => {
+        const minutes = Math.floor(seconds / 60);
+        const sec = seconds % 60;
+        return `${minutes} : ${sec < 10 ? '0' : ''}${sec}`;
+    }
+
+    /**
+     * 시작 타이머
+     */
+    const startTimer = () => {
+        setSeconds(180);
+        intervalRef.current = setInterval(() => {
+            setSeconds(seconds => seconds - 1)
+        }, 1000)
+    }
+
+    /**
+     * 인증 성공 시 타이머 종료
+     */
+    const resetTimer = () => {
+        // setSeconds(180);
+        clearInterval(intervalRef.current);
+    }
+
+    /**
+     * 인증시간 만료 시 종료
+     */
+    useEffect( () => {
+        if (seconds === 0) {
+            clearInterval(intervalRef.current);
+            const timerText = document.getElementById('timerText');
+            timerText.textContent = '인증시간이 초과하였습니다. 재시도 해주세요.';
+            setCodeSendButton(true);
+            setRandomCodeInput(true);
+            setAuthenticationButton(false);
+        }
+    }, [seconds])
+
+    /**
+     * Axios 휴대폰 인증
+     */
     const codeSend = () => {
         if (id.trim() === '') {
             alert('아이디를 입력해주세요.');
@@ -90,10 +138,41 @@ function Signup() {
                     setRandomCodeInput(false);
                     setAuthenticationButton(true);
                     setCodeSendButton(false);
+                    setTimerHidden(false);
+                    startTimer();
                 } else {
                     console.log(response.data.message);
                 }
             }).catch(error => console.log(error))
+    }
+
+    /**
+     * Axios 랜덤코드 전송
+     */
+    const codeSendAxios = () => {
+        if (randomCode.trim() === '') {
+            alert('인증번호를 입력해주세요.');
+            return;
+        }
+        const url = '/api/sms/codeCompare';
+        const data = {randomCode : randomCode}
+        const config = {"Content-Type" : 'application/json'}
+        axios.post(url, data, config)
+            .then(function (response) {
+                if (response.data.code === 200) {
+                    alert(response.data.message);
+                    setRandomCodeInput(true);
+                    setCodeSendButton(true);
+                    setSignupButton(false);
+                    setTimerHidden(true)
+                    resetTimer();
+                } else {
+                    alert(response.data.message);
+                    setRandomCodeInput(true);
+                    setCodeSendButton(true);
+                    setAuthenticationButton(false);
+                }
+            }).catch(error => console.log(error));
     }
 
     /**
@@ -151,11 +230,12 @@ function Signup() {
                 <Col sm="2" className="inputBox" hidden={randomCodeInput}>
                     인증번호 입력<Form.Control type="text" name="randomCode" value={randomCode} onChange={handleRandomCode}/>
                 </Col>
+                <span id="timerText" hidden={timerHidden}>{formatTimer(seconds)}</span>
             </Form.Group>
             <Button verient="primary" type="button" onClick={signupMember} disabled={signupButton}>가입</Button>
             <br/><br/>
             <Button verient="danger" type="button" onClick={codeSend} hidden={authenticationButton}>인증요청</Button>
-            <Button verient="danger" type="button"  hidden={codeSendButton}>인증</Button>
+            <Button verient="danger" type="button"  onClick={codeSendAxios} hidden={codeSendButton}>인증</Button>
         </Form>
     );
 }

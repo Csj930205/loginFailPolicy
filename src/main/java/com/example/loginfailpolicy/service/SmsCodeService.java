@@ -49,18 +49,16 @@ public class SmsCodeService {
             SmsCodeDto smsCode = new SmsCodeDto();
             smsCode.setPhone((String) success.getBody().get("phone"));
             smsCode.setRandomCode((String) success.getBody().get("randomNumber"));
+
             if (detailMember != null) {
                 smsCode.setMember(detailMember);
-                smsCodeRepository.save(smsCode.toEntity());
-                result.put("result", "success");
-                result.put("code", HttpStatus.OK.value());
-                result.put("message", "인증번호가 발송되었습니다.");
-            } else {
-                smsCodeRepository.save(smsCode.toEntity());
-                result.put("result", "success");
-                result.put("code", HttpStatus.OK.value());
-                result.put("message", "인증번호가 발송되었습니다.");
             }
+
+            smsCodeRepository.save(smsCode.toEntity());
+            result.put("result", "success");
+            result.put("code", HttpStatus.OK.value());
+            result.put("message", "인증번호가 발송되었습니다.");
+
         } else {
             result.put("result", "fail");
             result.put("code", HttpStatus.NOT_FOUND.value());
@@ -86,7 +84,6 @@ public class SmsCodeService {
                 result.put("result", "success");
                 result.put("code", HttpStatus.OK.value());
                 result.put("message", "인증에 성공하였습니다.");
-                result.put("memberId", smsCode.getMember().getId());
             } else {
                 result.put("result", "fail");
                 result.put("code", HttpStatus.BAD_REQUEST.value());
@@ -97,6 +94,11 @@ public class SmsCodeService {
             result.put("code", HttpStatus.NOT_FOUND.value());
             result.put("message", "인증번호가 일치하지 않습니다");
         }
+
+        if (smsCode.getMember() != null) {
+            result.put("memberId", smsCode.getMember().getId());
+        }
+
         return result;
     }
 }

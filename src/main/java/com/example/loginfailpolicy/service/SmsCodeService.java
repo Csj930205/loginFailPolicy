@@ -53,18 +53,15 @@ public class SmsCodeService {
             if (detailMember != null) {
                 smsCode.setMember(detailMember);
             }
-
             smsCodeRepository.save(smsCode.toEntity());
             result.put("result", "success");
             result.put("code", HttpStatus.OK.value());
             result.put("message", "인증번호가 발송되었습니다.");
-
         } else {
             result.put("result", "fail");
             result.put("code", HttpStatus.NOT_FOUND.value());
             result.put("message", "인증번호 발송에 실패하였습니다. 다시 시도해주세요.");
         }
-
         return result;
     }
 
@@ -94,11 +91,9 @@ public class SmsCodeService {
             result.put("code", HttpStatus.NOT_FOUND.value());
             result.put("message", "인증번호가 일치하지 않습니다");
         }
-
         if (smsCode.getMember() != null) {
             result.put("memberId", smsCode.getMember().getId());
         }
-
         return result;
     }
 }

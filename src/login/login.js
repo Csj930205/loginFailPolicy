@@ -51,6 +51,7 @@ function Login() {
         const sec = seconds % 60 ;
         return `${minutes} : ${sec < 10 ? '0' : ''}${sec}`;
     }
+
     /**
      * 시작타이머
      */
@@ -168,7 +169,7 @@ function Login() {
         axios.post('/api/sms/codeCompare', {randomCode : randomCode}, config)
             .then(function (response) {
                 if (response.data.code === 200) {
-                    if (seconds != 0) {
+                    if (seconds !== 0) {
                         alert('인증이 완료되었습니다. 로그인을 다시 진행해주세요.')
                         setAuthenticationHidden(true);
                         setAuthenticationButton(true);
@@ -176,6 +177,7 @@ function Login() {
                         setPhone('');
                         setName('');
                         setRandomCode('');
+                        setTimerDisabled(true)
                         resetTimer();
                         return;
                     } else {
@@ -224,11 +226,8 @@ function Login() {
                 </Col>
                 <span id= "timerText" hidden={timerDisabled}>{formatTime(seconds)}</span>
             </Form.Group>
-
             <Button variant='primary' type='button' onClick={onClickLogin} disabled={loginButton}>로그인</Button>
-
             <Button variant="danger" type="button" onClick={phoneAuthentication} hidden={phoneButton} >인증요청</Button>
-
             <Button variant="danger" type="button" onClick={randomCodeSend} hidden={authenticationButton}>인증</Button>
         </Form>
     )

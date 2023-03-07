@@ -141,13 +141,13 @@ public class MemberService implements UserDetailsService {
                 result.put("message", "비밀번호 변경이 완료되었습니다.");
             } else {
                 result.put("result", "fail");
-                result.put("code", HttpStatus.NOT_FOUND.value());
+                result.put("code", HttpStatus.BAD_REQUEST.value());
                 result.put("message", "비밀번호 규칙에 어긋납니다.");
             }
         } else {
             result.put("result", "fail");
-            result.put("code", HttpStatus.NOT_FOUND.value());
-            result.put("message", "정보가 잘못되었습니다. 다시 시도해주세요.");
+            result.put("code", HttpStatus.INTERNAL_SERVER_ERROR.value());
+            result.put("message", "서버오류");
         }
         return result;
     }

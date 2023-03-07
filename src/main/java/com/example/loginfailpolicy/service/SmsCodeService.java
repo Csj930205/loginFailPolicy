@@ -26,7 +26,7 @@ public class SmsCodeService {
     private final MemberRepository memberRepository;
 
     /**
-     * sms code 발송(외부 API 호출)
+     * sms code 발송(API 호출)
      * @param name
      * @param phone
      * @return

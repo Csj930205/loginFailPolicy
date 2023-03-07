@@ -19,18 +19,6 @@ public class MemberController {
     private final MemberService memberService;
 
     /**
-     * 회원가입
-     * @param memberDto
-     * @return
-     */
-    @PostMapping("signup")
-    public ResponseEntity<Map<String, Object>> signupMember(@RequestBody MemberDto memberDto) {
-        Map<String, Object> result = memberService.insertMember(memberDto);
-
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
-
-    /**
      * 전체 리스트
      * @return
      */
@@ -59,6 +47,18 @@ public class MemberController {
         result.put("result", "success");
         result.put("code", HttpStatus.OK.value());
         result.put("detailList", detailList);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    /**
+     * 회원가입
+     * @param memberDto
+     * @return
+     */
+    @PostMapping("signup")
+    public ResponseEntity<Map<String, Object>> signupMember(@RequestBody MemberDto memberDto) {
+        Map<String, Object> result = memberService.insertMember(memberDto);
+
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

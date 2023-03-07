@@ -226,8 +226,8 @@ function Login() {
                 </Col>
                 <span id= "timerText" hidden={timerDisabled}>{formatTime(seconds)}</span>
             </Form.Group>
-            <Button variant='primary' type='button' onClick={onClickLogin} disabled={loginButton}>로그인</Button>
-            <Button variant="danger" type="button" onClick={phoneAuthentication} hidden={phoneButton} >인증요청</Button>
+            <Button variant='primary' type='button' onClick={onClickLogin} disabled={loginButton}>로그인</Button>{' '}
+            <Button variant="danger" type="button" onClick={phoneAuthentication} hidden={phoneButton} >인증요청</Button>{' '}
             <Button variant="danger" type="button" onClick={randomCodeSend} hidden={authenticationButton}>인증</Button>
         </Form>
     )

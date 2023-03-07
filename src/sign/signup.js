@@ -232,10 +232,9 @@ function Signup() {
                 </Col>
                 <span id="timerText" hidden={timerHidden}>{formatTimer(seconds)}</span>
             </Form.Group>
-            <Button verient="primary" type="button" onClick={signupMember} disabled={signupButton}>가입</Button>
-            <br/><br/>
-            <Button verient="danger" type="button" onClick={codeSend} hidden={authenticationButton}>인증요청</Button>
-            <Button verient="danger" type="button"  onClick={codeSendAxios} hidden={codeSendButton}>인증</Button>
+            <Button variant="outline-primary" type="button" onClick={signupMember} disabled={signupButton}>가입</Button>{' '}
+            <Button variant="outline-danger" type="button" onClick={codeSend} hidden={authenticationButton}>인증요청</Button>{' '}
+            <Button variant="outline-danger" type="button"  onClick={codeSendAxios} hidden={codeSendButton}>인증</Button>
         </Form>
     );
 }
